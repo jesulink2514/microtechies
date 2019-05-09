@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>068a3a69-a8be-4cae-ae98-9c6c9d8b3f86</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="DotNetCore.CAP.PostgreSql" Version="2.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="DotNetCore.CAP" Version="2.5.0" />
+    <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="2.5.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Techies.Clients.ApplicationServices\Techies.Clients.ApplicationServices.csproj" />
+    <ProjectReference Include="..\Techies.Clients.Domain\Techies.Clients.Domain.csproj" />
+    <ProjectReference Include="..\Techies.Clients.DTOs\Techies.Clients.DTOs.csproj" />
+    <ProjectReference Include="..\Techies.Clients.Infrastructure.EFCore\Techies.Clients.Infrastructure.EFCore.csproj" />
+    <ProjectReference Include="..\Techies.Clients.Infrastructure\Techies.Clients.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
