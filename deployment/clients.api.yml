@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: techies-client
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: client-api
+    spec:
+      containers:
+        - image: "jesulink2514/techies.client.api"
+          imagePullPolicy: Always
+          name: client-api
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techies-client
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    name: tcp-80
+  - port: 443
+    name: tcp-443
+  selector:
+    app: client-api

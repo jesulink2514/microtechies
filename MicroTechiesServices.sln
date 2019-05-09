@@ -19,11 +19,33 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Techies.Clients.DTOs", "Tec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Techies.Clients.ApplicationServices", "Techies.Clients.ApplicationServices\Techies.Clients.ApplicationServices.csproj", "{CCD9DEB6-1424-4AA1-8B64-A6A8EC152CC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Techies.Clients.Infrastructure", "Techies.Clients.Infrastructure\Techies.Clients.Infrastructure.csproj", "{ADF56A80-B542-404C-B45E-8D371B847A88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Techies.Clients.Infrastructure", "Techies.Clients.Infrastructure\Techies.Clients.Infrastructure.csproj", "{ADF56A80-B542-404C-B45E-8D371B847A88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Techies.Clients.Domain", "Techies.Clients.Domain\Techies.Clients.Domain.csproj", "{679034C5-2D80-4CA8-8B4E-E6F283F7F405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Techies.Clients.Domain", "Techies.Clients.Domain\Techies.Clients.Domain.csproj", "{679034C5-2D80-4CA8-8B4E-E6F283F7F405}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Techies.Clients.Infrastructure.EFCore", "Techies.Clients.Infrastructure.EFCore\Techies.Clients.Infrastructure.EFCore.csproj", "{C2F88D51-68D8-401A-9703-1BDC89370B63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Techies.Clients.Infrastructure.EFCore", "Techies.Clients.Infrastructure.EFCore\Techies.Clients.Infrastructure.EFCore.csproj", "{C2F88D51-68D8-401A-9703-1BDC89370B63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Deployment", "0. Deployment", "{B11ED6BA-E3E6-4801-B8C0-6DF70D7A05CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apigateway", "apigateway", "{823E27DE-4B5A-4737-8B7B-75F201E664BB}"
+	ProjectSection(SolutionItems) = preProject
+		deployment\apigateway.yml = deployment\apigateway.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client.api", "client.api", "{DE74A73B-551D-4D51-A614-6C49F68FB2EA}"
+	ProjectSection(SolutionItems) = preProject
+		deployment\clients.api.yml = deployment\clients.api.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client.stats", "client.stats", "{0B98B1AD-A7A0-4098-910E-70A1E37A4D7F}"
+	ProjectSection(SolutionItems) = preProject
+		deployment\clients.stats.api.yml = deployment\clients.stats.api.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7E8AF8E7-BE36-49EA-9CF4-D0B52C12D975}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\Nuget.config = .nuget\Nuget.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +98,9 @@ Global
 		{ADF56A80-B542-404C-B45E-8D371B847A88} = {66D4E0E2-4F3D-4478-BF75-7E04FCEF4F4C}
 		{679034C5-2D80-4CA8-8B4E-E6F283F7F405} = {66D4E0E2-4F3D-4478-BF75-7E04FCEF4F4C}
 		{C2F88D51-68D8-401A-9703-1BDC89370B63} = {66D4E0E2-4F3D-4478-BF75-7E04FCEF4F4C}
+		{823E27DE-4B5A-4737-8B7B-75F201E664BB} = {B11ED6BA-E3E6-4801-B8C0-6DF70D7A05CA}
+		{DE74A73B-551D-4D51-A614-6C49F68FB2EA} = {B11ED6BA-E3E6-4801-B8C0-6DF70D7A05CA}
+		{0B98B1AD-A7A0-4098-910E-70A1E37A4D7F} = {B11ED6BA-E3E6-4801-B8C0-6DF70D7A05CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2550ED1B-84FB-4E83-8C5D-55D953637C17}

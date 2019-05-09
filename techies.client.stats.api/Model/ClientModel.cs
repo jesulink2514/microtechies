@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nest;
+using System;
 
 namespace Techies.Client.Stats.Api.Model
 {

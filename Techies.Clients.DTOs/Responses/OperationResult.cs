@@ -5,7 +5,7 @@
         public OperationResult(bool isCorrect, string message=null)
         {
             IsCorrect = isCorrect;
-            Message = null;
+            Message = message;
         }
 
         public bool IsCorrect { get; set; }

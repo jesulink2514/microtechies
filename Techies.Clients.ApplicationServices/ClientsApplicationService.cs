@@ -54,7 +54,7 @@ namespace Techies.Clients.ApplicationServices
 
             await _publisher.PublishAsync("client.services.registered", newClient);
 
-            return OperationResult.Correct(client.Email);
+            return OperationResult.Correct(client.Id.ToString());
         }
     }
 }

@@ -11,35 +11,46 @@ namespace Techies.Client.Stats.Api.Controllers
     [ApiController]
     public class KPIController : Controller
     {
-        private readonly ElasticClient _elasticClient;
+        private readonly ElasticClient _client;
 
         public KPIController(ElasticClient elasticClient)
         {
-            _elasticClient = elasticClient;
+            _client = elasticClient;
         }
+        
+        [Route("stats")]
         public async Task<IActionResult> Index()
         {
-            var sumClients = await _elasticClient.SearchAsync<ClientModel>
-                (c=> c.Aggregations(a=> a.Sum("sum_ages",m=>m.Field(o=>o.BirthdateYear))));
+            var currentTime = DateTime.UtcNow.Year;
 
-            //var sums = await _elasticClient.SearchAsync<ClientModel>(c=> 
-            //c.ScriptFields(sf=> sf.ScriptField("age",sff=> sff.Source("doc['age'].value - 2019"))));                    
+            const string ageScript = "params['currentTime'] - doc['birthdateYear'].value";
 
-            var totalClients = (await _elasticClient.CountAsync<ClientModel>()).Count;
+            var datas = await _client.SearchAsync<ClientModel>(s => s.Index("clientsmodel")
+            .MatchAll()
+            .Aggregations(a => a.ExtendedStats("stats",d => d.Script(sf => sf.Source(ageScript)
+                     .Params(sp => sp.Add("currentTime", currentTime))))));
 
-            if(totalClients == 0) return Ok(0);
+            var stats = (ExtendedStatsAggregate)datas.Aggregations["stats"];
 
-            var average = ((DateTime.UtcNow.Year * totalClients) - sumClients.Aggregations.Sum("sum_ages").Value ?? 0)/totalClients;
+            var response = new ClientStatsResponse()
+            {
+                AverageAge = stats.Average ?? 0,
+                StdDeviationAge = stats.StdDeviation ?? 0
+            };
 
-            return Ok(average);
+            return Ok(response);
         }
 
         [CapSubscribe("client.services.registered"),NonAction]
         public async Task IndexingClient(NewClient client)
         {
-            if(!(await _elasticClient.IndexExistsAsync("clientsmodel")).Exists)
+            if(!(await _client.IndexExistsAsync("clientsmodel")).Exists)
             {
-                _elasticClient.CreateIndex("clientsmodel", c => c.Mappings(m => m.Map<ClientModel>(mp => mp.AutoMap())));
+                var response = await _client.CreateIndexAsync("clientsmodel", c => c.Mappings(m => m.Map<ClientModel>(mp => mp.AutoMap())));
+                if (!response.IsValid)
+                {
+                    throw response.OriginalException;
+                }
             }
 
             var indexedClient = new ClientModel()
@@ -56,7 +67,9 @@ namespace Techies.Client.Stats.Api.Controllers
                 UpdatedBy = client.UpdatedBy
             };
 
-            var result = await _elasticClient.IndexAsync(indexedClient,id=> id.Index("clientsmodel"));
+            var result = await _client.IndexAsync(indexedClient,id=> id.Index("clientsmodel"));
+
+            if(!result.IsValid) throw result.OriginalException;
         }
     }
 }

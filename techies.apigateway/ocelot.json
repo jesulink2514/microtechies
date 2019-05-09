@@ -1,6 +1,43 @@
 {
-    "ReRoutes": [],
-    "GlobalConfiguration": {
-        "BaseUrl": "https://api.mybusiness.com"
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/kpi/stats",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/kpideclientes",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "https",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamPathTemplate": "/creacliente"
+    },
+    {
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 6001
+        }
+      ],
+      "UpstreamPathTemplate": "/listclientes",
+      "UpstreamHttpMethod": [ "Get" ]
     }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7001"
+  }
 }

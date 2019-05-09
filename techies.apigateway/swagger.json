@@ -1,0 +1,130 @@
+﻿{
+  "x-generator": "NSwag v12.2.5.0 (NJsonSchema v9.13.37.0 (Newtonsoft.Json v12.0.0.0))",
+  "swagger": "2.0",
+  "info": {
+    "title": "My Title",
+    "version": "1.0.0"
+  },
+  "host": "localhost:6001",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/api/KPI/stats": {
+      "get": {
+        "tags": [
+          "KPI"
+        ],
+        "operationId": "KPI_Index",
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Clients": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "operationId": "Clients_Get",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "search",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "format": "int32",
+            "default": 1,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "pageSize",
+            "in": "query",
+            "format": "int32",
+            "default": 500,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "type": "file"
+            }
+          }
+        }
+      }
+    },
+    "/api/Clients/{id}": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "operationId": "Clients_Get2",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "404": {
+            "x-nullable": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ProblemDetails": {
+      "type": "object",
+      "additionalProperties": {},
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "instance": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
