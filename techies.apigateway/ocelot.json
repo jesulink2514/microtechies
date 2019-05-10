@@ -2,11 +2,11 @@
   "ReRoutes": [
     {
       "DownstreamPathTemplate": "/api/kpi/stats",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6001
+          "Host": "techies-stats.default",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/kpideclientes",
@@ -15,22 +15,22 @@
     {
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5001
+          "Host": "techies-client.default",
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/clients",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "UpstreamHttpMethod": [ "Post" ],
       "UpstreamPathTemplate": "/creacliente"
     },
     {
       "DownstreamPathTemplate": "/api/clients",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 6001
+          "Host": "techies-stats.default",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/listclientes",

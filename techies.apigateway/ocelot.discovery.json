@@ -1,0 +1,34 @@
+{
+  "ReRoutes": [
+    {
+      "ServiceName": "techies-client",
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "https",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamPathTemplate": "/creacliente"
+    },
+    {
+      "DownstreamPathTemplate": "/api/kpi/stats",
+      "DownstreamScheme": "https",
+      "ServiceName": "techies-stats",
+      "UpstreamPathTemplate": "/kpideclientes",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/clients",
+      "DownstreamScheme": "https",
+      "ServiceName": "techies-stats",
+      "UpstreamPathTemplate": "/listclientes",
+      "UpstreamHttpMethod": [ "Get" ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "192.168.0.13",
+      "Port": 443,
+      "Token": "txpc696iUhbVoudg164r93CxDTrKRVWG",
+      "Namespace": "dev",
+      "Type": "kube"
+    }
+  }
+}

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +28,9 @@ namespace techies.client.stats.api
 
             var rabbitHostName = Configuration.GetValue<string>("RabbitMq:HostName");
             var rabbitUser = Configuration.GetValue<string>("RabbitMq:User");
-            var rabbitPassword = Configuration.GetValue<string>("RabbitMq:Password");
+            var rabbitPassword = Configuration.GetValue<string>("RabbitMq:Password");            
+
+            var rabbitConn = $"amqp://{rabbitUser}:{rabbitPassword}@{rabbitHostName}:5672/";
 
             services.AddCap(opt =>
             {
@@ -43,6 +47,10 @@ namespace techies.client.stats.api
                 .DefaultIndex("clients");
 
             services.AddScoped(sp => new ElasticClient(settings));
+
+            services.AddHealthChecks()
+                .AddRabbitMQ(rabbitConn)
+                .AddElasticsearch(elastic);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,12 +60,12 @@ namespace techies.client.stats.api
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
 
+            app.UseHealthChecks("/health", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger();

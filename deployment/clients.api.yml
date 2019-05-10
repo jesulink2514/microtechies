@@ -16,6 +16,17 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
+          envFrom:
+            - configMapRef:
+                name: techies-client-config
+          livenessProbe:
+            httpGet:
+                path: /health
+                port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 3
+            successThreshold: 1
 ---
 apiVersion: v1
 kind: Service
@@ -30,3 +41,15 @@ spec:
     name: tcp-443
   selector:
     app: client-api
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: techies-client-config
+  namespace: default
+data:
+  ConnectionStrings__Default: 'Server=techies.postgres.database.azure.com;Database=postgres;Port=5432;User Id=sql_user@techies;Password=P@$$w0rd;Ssl Mode=Require;'
+  RabbitMq__HostName: '.default'
+  RabbitMq__User: 'guest'
+  RabbitMq__Password: 'guest'
+---

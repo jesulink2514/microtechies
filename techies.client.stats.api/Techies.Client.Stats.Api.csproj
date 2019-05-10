@@ -6,7 +6,9 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch" Version="2.2.2" />
     <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="2.5.0" />
+    <PackageReference Include="KubeClient.Extensions.Configuration" Version="2.2.11" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.0" />
@@ -16,6 +18,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />    
     <PackageReference Include="NEST" Version="6.6.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
+    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="2.2.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.27" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\ExternalServices\" />

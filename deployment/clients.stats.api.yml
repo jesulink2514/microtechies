@@ -16,6 +16,17 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
+          envFrom:
+            - configMapRef:
+                name: techies-stats-config
+          livenessProbe:
+            httpGet:
+                path: /health
+                port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            failureThreshold: 3
+            successThreshold: 1
 ---
 apiVersion: v1
 kind: Service
@@ -30,3 +41,17 @@ spec:
     name: tcp-443
   selector:
     app: client-stats
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: techies-stats-config
+  namespace: default
+data:  
+  RabbitMq__HostName: 'rabbit-rabbitmq.default'
+  RabbitMq__User: 'ruser'
+  RabbitMq__Password: 'r123456'  
+  ElasticSearch__Host: 'http://elasticsearch-master.default:9200'
+  ElasticSearch__User: ''
+  ElasticSearch__Password: ''
+---

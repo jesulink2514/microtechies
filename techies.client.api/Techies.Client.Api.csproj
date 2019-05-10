@@ -6,7 +6,9 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="2.2.0" />    
     <PackageReference Include="DotNetCore.CAP.PostgreSql" Version="2.5.0" />
+    <PackageReference Include="KubeClient.Extensions.Configuration" Version="2.2.11" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Api.Analyzers" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -17,6 +19,8 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
     <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
+    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="2.2.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="2.2.27" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Techies.Clients.ApplicationServices\Techies.Clients.ApplicationServices.csproj" />

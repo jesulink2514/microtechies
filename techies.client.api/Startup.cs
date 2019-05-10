@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +41,8 @@ namespace techies.client.api
             var rabbitUser = Configuration.GetValue<string>("RabbitMq:User");
             var rabbitPassword = Configuration.GetValue<string>("RabbitMq:Password");
 
+            var rabbitConn = $"amqp://{rabbitUser}:{rabbitPassword}@{rabbitHostName}:5672/";
+
             services.AddCap(opts =>
             {                
                 opts.UseDashboard();
@@ -48,6 +52,10 @@ namespace techies.client.api
                 });
                 opts.UseEntityFramework<ClientsDbContext>();
             });
+
+            services.AddHealthChecks()
+                .AddRabbitMQ(rabbitConn)
+                .AddNpgSql(defaultConnection);
 
             services.AddSwaggerDocument();
 
@@ -65,12 +73,11 @@ namespace techies.client.api
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+            app.UseHealthChecks("/health", new HealthCheckOptions()
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
+                Predicate = _ => true,
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
             app.UseSwagger();
