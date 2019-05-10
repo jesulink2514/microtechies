@@ -45,7 +45,9 @@ namespace techies.client.stats.api
                 opt.UseDashboard();
                 opt.UseRabbitMQ(o =>
                 {
-                    o.HostName = rabbitHostName;                                        
+                    o.HostName = rabbitHostName;
+                    o.UserName = rabbitUser;
+                    o.Password = rabbitPassword;
                 });
                 opt.UseInMemoryStorage();
             });

@@ -54,7 +54,9 @@ namespace techies.client.api
                 opts.UseDashboard();
                 opts.UseRabbitMQ(o =>
                 {
-                    o.HostName = rabbitHostName;                    
+                    o.HostName = rabbitHostName;   
+                    o.UserName = rabbitUser;
+                    o.Password = rabbitPassword;
                 });
                 opts.UseEntityFramework<ClientsDbContext>();
             });
