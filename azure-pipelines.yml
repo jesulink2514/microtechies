@@ -5,12 +5,13 @@
 
 trigger:
 - master
-
+name: $(semanticVersion)$(Rev:.r)
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
+  semanticVersion: '1.0.0'
 
 - task: Docker@2
   inputs:
