@@ -27,7 +27,7 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'jesulink-docker'
-    repository: 'techies.client.stats.api'
+    repository: 'jesulink2514/techies.client.stats.api'
     command: 'buildAndPush'
     Dockerfile: 'techies.client.stats.Dockerfile'
     tags: '$(Build.BuildNumber)'
