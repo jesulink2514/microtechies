@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Elasticsearch.Net;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
-using Techies.Client.Stats.Api.Model;
 using Microsoft.AspNetCore.Http;
+using Techies.Client.Stats.Api.Application;
 
 namespace techies.client.stats.api.Controllers
 {
@@ -14,39 +9,28 @@ namespace techies.client.stats.api.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly ElasticClient _client;
-        public const int PageSize = 500;
-        public ClientsController(ElasticClient client)
+        private readonly IClientApplicationService _client;
+
+        public ClientsController(IClientApplicationService clientApplicationService)
         {
-            _client = client;
+            _client = clientApplicationService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get(string search=null, int page = 1, int pageSize = 500)
         {
-            var datas = await _client.SearchAsync<ClientModel>(s => s.Index("clientsmodel")
-            .MatchAll()
-            .From((page - 1)*pageSize)
-            .Take(pageSize)
-            //.Sort(sort => sort.Ascending(f=> f.LastName).Ascending(f=> f.FirstName))            
-            );
-            
-            return Ok(datas.Documents.ToArray());
+            var data = await _client.ListClients(search,page,pageSize);
+            return Ok(data);
         }
-
-        // GET api/values/5
+        
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]        
         public async Task<IActionResult> Get(string id)
-        {
-            var datas = await _client.SearchAsync<ClientModel>(s => s.Index("clientsmodel")
-            .Query(q=> q.Ids(i=> i.Values(id)))
-            .Take(1));
+        {            
+            var client = await _client.GetClientById(id);            
 
-            var client = datas.Documents.FirstOrDefault();
-
-            if(client == null) return NotFound();
+            if (client == null) return NotFound();
 
             return Ok(client);
         }

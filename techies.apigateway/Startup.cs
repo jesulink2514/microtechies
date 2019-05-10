@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using NJsonSchema;
 using NSwag.AspNetCore;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using Ocelot.Provider.Kubernetes;
+using Ocelot.Cache.CacheManager;
+using Ocelot.Provider.Polly;
+using Ocelot.Logging;
+using System.Reflection;
+using Jaeger.Samplers;
+using Jaeger;
+using OpenTracing.Util;
+using Microsoft.Extensions.Logging;
 
 namespace techies.apigateway
 {
@@ -27,16 +26,36 @@ namespace techies.apigateway
             Configuration = configuration;
         }
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddOcelot().AddKubernetes();
-        }
+            services.AddOcelot()
+                .AddCacheManager(x => x.WithDictionaryHandle())
+                .AddPolly();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddSingleton(serviceProvider =>
+            {
+                string serviceName = Assembly.GetEntryAssembly().GetName().Name;
+
+                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+
+                var sampler = new ConstSampler(sample: true);
+
+                var tracer = new Tracer.Builder(serviceName)
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSampler(sampler)
+                    .Build();
+
+                GlobalTracer.Register(tracer);
+
+                return tracer as OpenTracing.ITracer;
+            });
+
+            services.AddOpenTracing();
+        }
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -44,8 +63,7 @@ namespace techies.apigateway
                 app.UseDeveloperExceptionPage();
             }
             else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            {                
                 app.UseHsts();
             }
             app.UseHttpsRedirection();

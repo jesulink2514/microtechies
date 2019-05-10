@@ -12,6 +12,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets" Version="1.0.0" />
     <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
     <PackageReference Include="Ocelot" Version="13.5.0" />
-    <PackageReference Include="Ocelot.Provider.Kubernetes" Version="13.5.0" />    
+    <PackageReference Include="Ocelot.Cache.CacheManager" Version="13.5.0" />
+    <PackageReference Include="Ocelot.Provider.Kubernetes" Version="13.5.0" />
+    <PackageReference Include="Ocelot.Provider.Polly" Version="13.5.0" />
+    <PackageReference Include="OpenTracing.Contrib.NetCore" Version="0.5.0" />
+    <PackageReference Include="Jaeger" Version="0.3.2" />
   </ItemGroup>
 </Project>

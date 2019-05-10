@@ -5,39 +5,68 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "techies-stats.default",
+          "Host": "techies-stats.default.svc.cluster.local",
           "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/kpideclientes",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "stats"
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5,
+        "TimeoutValue": 5000
+      }
     },
     {
       "DownstreamHostAndPorts": [
         {
-          "Host": "techies-client.default",
+          "Host": "techies-client.default.svc.cluster.local",
           "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/clients",
       "DownstreamScheme": "http",
       "UpstreamHttpMethod": [ "Post" ],
-      "UpstreamPathTemplate": "/creacliente"
+      "UpstreamPathTemplate": "/creacliente",
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5,
+        "TimeoutValue": 5000
+      }
     },
     {
       "DownstreamPathTemplate": "/api/clients",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "techies-stats.default",
+          "Host": "techies-stats.default.svc.cluster.local",
           "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/listclientes",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "clients"
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5,
+        "TimeoutValue": 5000
+      }
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7001"
+    "BaseUrl": "https://localhost:7001",
+    "RateLimitOptions": {
+      "DisableRateLimitHeaders": false,
+      "QuotaExceededMessage": "You exceeded the quota",
+      "HttpStatusCode": 999,
+      "ClientIdHeader": "client-id"
+    }
   }
 }

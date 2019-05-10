@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using HealthChecks.UI.Client;
+using Jaeger;
+using Jaeger.Samplers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +9,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using OpenTracing;
+using OpenTracing.Util;
+using System.Reflection;
 using Techies.Clients.ApplicationServices;
 using Techies.Clients.ApplicationServices.Abstract;
 using Techies.Clients.ApplicationServices.Validators;
@@ -58,6 +64,26 @@ namespace techies.client.api
                 .AddNpgSql(defaultConnection);
 
             services.AddSwaggerDocument();
+
+            services.AddSingleton<ITracer>(serviceProvider =>
+            {
+                string serviceName = Assembly.GetEntryAssembly().GetName().Name;
+
+                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+
+                var sampler = new ConstSampler(sample: true);                
+
+                ITracer tracer = new Tracer.Builder(serviceName)
+                    .WithLoggerFactory(loggerFactory)
+                    .WithSampler(sampler)
+                    .Build();
+
+                GlobalTracer.Register(tracer);
+
+                return tracer;
+            });
+
+            services.AddOpenTracing();
 
             services.AddScoped<IClientApplicationService,ClientsApplicationService>();
             services.AddScoped<IClientsRepository,EFClientsRepository>();
