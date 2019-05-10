@@ -2,7 +2,6 @@ trigger:
 - master
 pool:
   vmImage: 'ubuntu-latest'
-
 variables:
   buildConfiguration: 'Release'
   semanticVersion: '1.0.0'
