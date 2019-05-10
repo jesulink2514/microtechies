@@ -9,6 +9,7 @@ namespace Techies.Client.Stats.Api.Application
     public class ClientApplicationService : IClientApplicationService
     {
         public const int MaxPageSize = 500;
+        private const string StatsField = "stats";
         private readonly ElasticClient _client;
         public ClientApplicationService(ElasticClient client)
         {
@@ -47,10 +48,12 @@ namespace Techies.Client.Stats.Api.Application
 
             var datas = await _client.SearchAsync<ClientModel>(s => s.Index("clientsmodel")
             .MatchAll()
-            .Aggregations(a => a.ExtendedStats("stats", d => d.Script(sf => sf.Source(ageScript)
+            .Aggregations(a => a.ExtendedStats(StatsField, d => d.Script(sf => sf.Source(ageScript)
                       .Params(sp => sp.Add("currentTime", currentTime))))));
 
-            var stats = datas.Aggregations["stats"] as ExtendedStatsAggregate;
+            if(!datas.Aggregations.ContainsKey(StatsField)) return new ClientStatsResponse();
+
+            var stats = datas.Aggregations[StatsField] as ExtendedStatsAggregate;
 
             var response = new ClientStatsResponse()
             {
