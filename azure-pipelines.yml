@@ -1,8 +1,4 @@
 trigger:
-- task: versioncounter@1
-  inputs:
-    VersionVariable: 'build-number'
-    DevOpsPat: '25wormtsafuhxsrzwzqrl7fo2dbriwurcfrm4h2whwxmwpshznsq'
 - master
 pool:
   vmImage: 'ubuntu-latest'
@@ -11,6 +7,11 @@ variables:
   semanticVersion: '1.0.0'
 
 steps:
+- task: versioncounter@1
+  inputs:
+    VersionVariable: 'build-number'
+    DevOpsPat: '25wormtsafuhxsrzwzqrl7fo2dbriwurcfrm4h2whwxmwpshznsq'
+
 - task: Docker@2
   inputs:
     containerRegistry: 'jesulink-docker'
