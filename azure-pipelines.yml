@@ -1,4 +1,8 @@
 trigger:
+- task: versioncounter@1
+  inputs:
+    VersionVariable: 'build-number'
+    DevOpsPat: '25wormtsafuhxsrzwzqrl7fo2dbriwurcfrm4h2whwxmwpshznsq'
 - master
 pool:
   vmImage: 'ubuntu-latest'
@@ -13,7 +17,7 @@ steps:
     repository: 'jesulink2514/techies.apigateway'
     command: 'buildAndPush'
     Dockerfile: 'apigateway.Dockerfile'
-    tags: '$(Build.BuildNumber)'
+    tags: '$(build-number)'
 
 - task: Docker@2
   inputs:
@@ -21,7 +25,7 @@ steps:
     repository: 'jesulink2514/techies.client.api'
     command: 'buildAndPush'
     Dockerfile: 'client.api.Dockerfile'
-    tags: '$(Build.BuildNumber)'
+    tags: '$(build-number)'
 
 - task: Docker@2
   inputs:
@@ -29,4 +33,4 @@ steps:
     repository: 'techies.client.stats.api'
     command: 'buildAndPush'
     Dockerfile: 'techies.client.stats.Dockerfile'
-    tags: '$(Build.BuildNumber)'
+    tags: '$(build-number)'
