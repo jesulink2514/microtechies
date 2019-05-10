@@ -12,6 +12,26 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'jesulink-docker'
+    repository: 'jesulink2514/techies.apigateway'
+    command: 'buildAndPush'
+    Dockerfile: 'apigateway.Dockerfile'
+    tags: '$(Build.BuildNumber)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'jesulink-docker'
+    repository: 'jesulink2514/techies.client.api'
+    command: 'buildAndPush'
+    Dockerfile: 'client.api.Dockerfile'
+    tags: '$(Build.BuildNumber)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'jesulink-docker'
+    repository: 'techies.client.stats.api'
+    command: 'buildAndPush'
+    Dockerfile: 'techies.client.stats.Dockerfile'
+    tags: '$(Build.BuildNumber)'
