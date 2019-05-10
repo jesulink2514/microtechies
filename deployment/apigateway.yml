@@ -52,6 +52,6 @@ metadata:
   name: techies-gateway-config
   namespace: default
 data:  
-  Swagger__Host: 'microtechies.com'
+  Swagger__Host: 'microtechies.eastus.cloudapp.azure.com'
   Swagger__Schema: 'HTTP'
 ---

@@ -8,5 +8,6 @@ namespace Techies.Clients.Infrastructure
     {
         void Add(Client newClient);
         Task<List<Client>> ListAll();
+        Task GetById(string id);
     }
 }

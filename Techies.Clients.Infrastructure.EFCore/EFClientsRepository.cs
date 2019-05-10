@@ -26,6 +26,11 @@ namespace Techies.Clients.Infrastructure.EFCore
             _dbContext?.Dispose();
         }
 
+        public async Task<Client> GetById(Guid id)
+        {
+            return await _dbContext.Clients.FirstOrDefaultAsync(c=> c.Id == id);
+        }
+
         public async Task<List<Client>> ListAll()
         {
             return await _dbContext.Clients.ToListAsync();

@@ -5,6 +5,7 @@ using Techies.Clients.ApplicationServices.Abstract;
 using Techies.Clients.DTOs.Request;
 using Microsoft.AspNetCore.Http;
 using Techies.Clients.DTOs.Responses;
+using System;
 
 namespace techies.client.api.Controllers
 {
@@ -29,5 +30,20 @@ namespace techies.client.api.Controllers
             if(result.IsCorrect) return CreatedAtAction("Get", new { id = result.Data});
             return BadRequest(result);
         }        
+
+
+        [HttpGet]
+        [ProducesResponseType(typeof(Techies.Clients.Domain.Client),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get(string id)
+        {            
+            if(id == null) return BadRequest();
+            if(!Guid.TryParse(id,out var clientId)) return BadRequest();
+
+            var result = await _clientApplicationService.GetById(clientId);
+            if (result == null) return NotFound();            
+            return Ok(result);
+        }
     }
 }

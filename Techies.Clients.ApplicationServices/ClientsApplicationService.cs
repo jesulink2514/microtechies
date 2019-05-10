@@ -1,5 +1,6 @@
 ﻿using DotNetCore.CAP;
 using FluentValidation;
+using System;
 using System.Threading.Tasks;
 using Techies.Clients.ApplicationServices.Abstract;
 using Techies.Clients.ApplicationServices.Resources;
@@ -55,6 +56,12 @@ namespace Techies.Clients.ApplicationServices
             await _publisher.PublishAsync("client.services.registered", newClient);
 
             return OperationResult.Correct(client.Id.ToString());
+        }
+
+        public async Task<Client> GetById(Guid id)
+        {            
+            var client = await _clientsRepository.GetById(id);
+            return client;
         }
     }
 }
