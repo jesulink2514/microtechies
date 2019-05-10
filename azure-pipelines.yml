@@ -14,7 +14,7 @@ steps:
     repository: 'jesulink2514/techies.apigateway'
     command: 'buildAndPush'
     Dockerfile: 'apigateway.Dockerfile'
-    tags: '$(semanticVersion)$(Build.Rev:rrr)'
+    tags: '$(Build.BuildNumber)'
 
 - task: Docker@2
   inputs:
@@ -22,7 +22,7 @@ steps:
     repository: 'jesulink2514/techies.client.api'
     command: 'buildAndPush'
     Dockerfile: 'client.api.Dockerfile'
-    tags: '$(semanticVersion)$(Build.Rev:rrr)'
+    tags: '$(Build.BuildNumber)'
 
 - task: Docker@2
   inputs:
@@ -30,4 +30,4 @@ steps:
     repository: 'techies.client.stats.api'
     command: 'buildAndPush'
     Dockerfile: 'techies.client.stats.Dockerfile'
-    tags: '$(semanticVersion)$(Build.Rev:rrr)'
+    tags: '$(Build.BuildNumber)'
