@@ -1,6 +1,7 @@
 ﻿using DotNetCore.CAP;
 using FluentValidation;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Techies.Clients.ApplicationServices.Abstract;
 using Techies.Clients.ApplicationServices.Resources;
@@ -45,13 +46,13 @@ namespace Techies.Clients.ApplicationServices
                 FirstName = client.FirstName,
                 LastName = client.LastName,
                 Birthdate = client.Birthdate
-            };
-
-            var clients = await _clientsRepository.ListAll();
+            };            
 
             _clientsRepository.Add(newClient);
 
-            await _unitOfWOrk.SaveAsync();
+            var recordsaffected = await _unitOfWOrk.SaveAsync();
+
+            Trace.WriteLine($"records affected {recordsaffected}");
 
             await _publisher.PublishAsync("client.services.registered", newClient);
 
