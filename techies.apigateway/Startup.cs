@@ -62,11 +62,7 @@ namespace techies.apigateway
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {                
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
+            
             app.UseSwaggerUi3(opt=> opt.DocumentPath = "/swagger/v1/swagger.json");
             app.Map("/swagger/v1/swagger.json", b =>
             {

@@ -104,7 +104,7 @@ namespace techies.client.api
                 Predicate = _ => true,
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
             });
-            app.UseHttpsRedirection();
+           
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUi3();
