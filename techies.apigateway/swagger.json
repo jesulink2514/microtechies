@@ -145,10 +145,7 @@
         "birthdate": {
           "type": "string",
           "format": "date-time"
-        },
-        "user": {
-          "type": "string"
-        }
+        }        
       },
       "additionalProperties": {}
     },
