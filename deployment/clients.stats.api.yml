@@ -60,7 +60,7 @@ metadata:
   name: techies-stats-config
   namespace: default
 data:  
-  RabbitMq__HostName: 'rabbit-rabbitmq.default'
+  RabbitMq__HostName: 'rabbit-rabbitmq.default.svc.cluster.local'
   RabbitMq__User: 'ruser'
   RabbitMq__Password: 'r123456'  
   ElasticSearch__Host: 'http://elasticsearch-master.default:9200'

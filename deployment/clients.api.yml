@@ -61,7 +61,7 @@ metadata:
   namespace: default
 data:
   ConnectionStrings__Default: 'Server=techies.postgres.database.azure.com;Database=postgres;Port=5432;User Id=sql_user@techies;Password=P@$$w0rd;Ssl Mode=Require;'
-  RabbitMq__HostName: '.default'
-  RabbitMq__User: 'guest'
-  RabbitMq__Password: 'guest'
+  RabbitMq__HostName: 'rabbit-rabbitmq.default.svc.cluster.local'
+  RabbitMq__User: 'ruser'
+  RabbitMq__Password: 'r123456'
 ---
