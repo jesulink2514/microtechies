@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Techies.Clients.Domain;
 
@@ -8,6 +9,6 @@ namespace Techies.Clients.Infrastructure
     {
         void Add(Client newClient);
         Task<List<Client>> ListAll();
-        Task GetById(string id);
+        Task<Client> GetById(Guid id);
     }
 }
