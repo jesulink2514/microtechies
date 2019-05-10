@@ -16,6 +16,9 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
+          envFrom:
+            - configMapRef:
+                name: techies-gateway-config
         - image: jaegertracing/jaeger-agent
           name: jaeger-agent
           ports:
@@ -42,3 +45,13 @@ spec:
     name: tcp-443
   selector:
     app: apigateway
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: techies-gateway-config
+  namespace: default
+data:  
+  Swagger__Host: 'microtechies.com'
+  Swagger__Schema: 'HTTP'
+---

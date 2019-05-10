@@ -63,11 +63,16 @@ namespace techies.apigateway
                 app.UseDeveloperExceptionPage();
             }
             
+            var host = Configuration.GetValue<string>("Swagger:Host");
+            var schema = Configuration.GetValue<string>("Swagger:Schema");
+
             app.UseSwaggerUi3(opt=> opt.DocumentPath = "/swagger/v1/swagger.json");
             app.Map("/swagger/v1/swagger.json", b =>
             {
                 b.Run(async x => {
                     var json = File.ReadAllText("swagger.json");
+                    json = json.Replace("#{host}", host);
+                    json = json.Replace("#{schema}", schema);
                     await x.Response.WriteAsync(json);
                 });
             });

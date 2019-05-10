@@ -4,8 +4,8 @@
     "version": "1.0.0",
     "title": "Microtechies API"
   },
-  "host": "localhost:6001",
-  "schemes": [ "https" ],
+  "host": "#{host}",
+  "schemes": [ "#{schema}" ],
   "paths": {
     "/listclientes": {
       "get": {
