@@ -1,11 +1,5 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - master
-name: $(semanticVersion)$(Rev:.r)
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -13,6 +7,7 @@ variables:
   buildConfiguration: 'Release'
   semanticVersion: '1.0.0'
 
+steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'jesulink-docker'
