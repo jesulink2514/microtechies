@@ -67,25 +67,25 @@ namespace techies.client.api
 
             services.AddSwaggerDocument();
 
-            services.AddSingleton<ITracer>(serviceProvider =>
-            {
-                string serviceName = Assembly.GetEntryAssembly().GetName().Name;
+            //services.AddSingleton<ITracer>(serviceProvider =>
+            //{
+            //    string serviceName = Assembly.GetEntryAssembly().GetName().Name;
 
-                var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+            //    var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
 
-                var sampler = new ConstSampler(sample: true);                
+            //    var sampler = new ConstSampler(sample: true);                
 
-                ITracer tracer = new Tracer.Builder(serviceName)
-                    .WithLoggerFactory(loggerFactory)
-                    .WithSampler(sampler)
-                    .Build();
+            //    ITracer tracer = new Tracer.Builder(serviceName)
+            //        .WithLoggerFactory(loggerFactory)
+            //        .WithSampler(sampler)
+            //        .Build();
 
-                GlobalTracer.Register(tracer);
+            //    GlobalTracer.Register(tracer);
 
-                return tracer;
-            });
+            //    return tracer;
+            //});
 
-            services.AddOpenTracing();
+            //services.AddOpenTracing();
 
             services.AddScoped<IClientApplicationService,ClientsApplicationService>();
             services.AddScoped<IClientsRepository,EFClientsRepository>();
