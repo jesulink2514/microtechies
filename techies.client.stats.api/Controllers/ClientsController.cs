@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Techies.Client.Stats.Api.Application;
+using Techies.Client.Stats.Api.Model;
 
 namespace techies.client.stats.api.Controllers
 {
@@ -17,6 +18,7 @@ namespace techies.client.stats.api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(PagedList<ClientModel>),StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(string search=null, int page = 1, int pageSize = 500)
         {
             var data = await _client.ListClients(search,page,pageSize);
@@ -24,7 +26,7 @@ namespace techies.client.stats.api.Controllers
         }
         
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ClientModel),StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]        
         public async Task<IActionResult> Get(string id)
         {            

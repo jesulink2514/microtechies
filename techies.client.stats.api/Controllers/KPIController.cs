@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DotNetCore.CAP;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Techies.Client.Stats.Api.Application;
 using Techies.Client.Stats.Api.Model;
@@ -18,6 +19,7 @@ namespace Techies.Client.Stats.Api.Controllers
         }
         
         [Route("stats")]
+        [ProducesResponseType(typeof(ClientStatsResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Index()
         {
             var stats = await _client.CalculateStats();

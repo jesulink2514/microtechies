@@ -15,5 +15,5 @@ namespace Techies.Client.Stats.Api.Model
         public DateTime CreationDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime UpdateDate { get; set; }
-    }
+    }    
 }

@@ -15,14 +15,17 @@ namespace Techies.Client.Stats.Api.Application
             _client = client;
         }
 
-        public async Task<ClientModel[]> ListClients(string search = null, int page = 1, int pageSize = 500)
+        public async Task<PagedList<ClientModel>> ListClients(string search = null, int page = 1, int pageSize = 500)
         {
             var datas = await _client.SearchAsync<ClientModel>(s => s.Index("clientsmodel")
             .MatchAll()
             .From((page - 1) * pageSize)
             .Take(pageSize));
 
-            return datas.Documents.ToArray();
+            var response = PagedList.With(datas.Documents.ToArray(),page)
+                .WithPageSize(pageSize).WithTotal(datas.Total);
+
+            return response;
         }
 
         public async Task<ClientModel> GetClientById(string id)

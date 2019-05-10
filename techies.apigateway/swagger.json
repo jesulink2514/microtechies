@@ -1,130 +1,252 @@
 ﻿{
-  "x-generator": "NSwag v12.2.5.0 (NJsonSchema v9.13.37.0 (Newtonsoft.Json v12.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "My Title",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "title": "Microtechies API"
   },
   "host": "localhost:6001",
-  "schemes": [
-    "https"
-  ],
+  "schemes": [ "https" ],
   "paths": {
-    "/api/KPI/stats": {
+    "/listclientes": {
       "get": {
-        "tags": [
-          "KPI"
-        ],
-        "operationId": "KPI_Index",
-        "responses": {
-          "200": {
-            "x-nullable": true,
-            "description": "",
-            "schema": {
-              "type": "file"
-            }
-          }
-        }
-      }
-    },
-    "/api/Clients": {
-      "get": {
-        "tags": [
-          "Clients"
-        ],
-        "operationId": "Clients_Get",
+        "tags": [ "Clients" ],
+        "operationId": "list-client",
         "parameters": [
           {
-            "type": "string",
             "name": "search",
             "in": "query",
+            "required": false,
+            "type": "string",
             "x-nullable": true
           },
           {
-            "type": "integer",
             "name": "page",
             "in": "query",
-            "format": "int32",
+            "required": false,
+            "type": "integer",
             "default": 1,
+            "format": "int32",
             "x-nullable": false
           },
           {
-            "type": "integer",
             "name": "pageSize",
             "in": "query",
-            "format": "int32",
+            "required": false,
+            "type": "integer",
             "default": 500,
+            "format": "int32",
             "x-nullable": false
           }
         ],
         "responses": {
           "200": {
-            "x-nullable": true,
             "description": "",
             "schema": {
-              "type": "file"
-            }
+              "$ref": "#/definitions/PagedListOfClientModel"
+            },
+            "x-nullable": true
           }
         }
       }
     },
-    "/api/Clients/{id}": {
-      "get": {
-        "tags": [
-          "Clients"
-        ],
-        "operationId": "Clients_Get2",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
+    "/creacliente": {
+      "post": {
+        "tags": [ "Clients" ],
+        "operationId": "Clients_Post",
         "parameters": [
           {
-            "type": "string",
-            "name": "id",
-            "in": "path",
+            "in": "body",
+            "name": "client",
             "required": true,
-            "x-nullable": true
+            "schema": {
+              "$ref": "#/definitions/RegisterClient"
+            },
+            "x-nullable": false
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": ""
           },
-          "404": {
-            "x-nullable": true,
+          "400": {
             "description": "",
             "schema": {
-              "$ref": "#/definitions/ProblemDetails"
-            }
+              "$ref": "#/definitions/OperationResultOfString"
+            },
+            "x-nullable": true
+          }
+        }
+      }
+    },
+    "/kpideclientes": {
+      "get": {
+        "tags": [ "Clients" ],
+        "operationId": "KPI_Index",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ClientStatsResponse"
+            },
+            "x-nullable": true
           }
         }
       }
     }
   },
   "definitions": {
-    "ProblemDetails": {
+    "OperationResultOfString": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/OperationResult"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": {}
+        }
+      ]
+    },
+    "OperationResult": {
       "type": "object",
-      "additionalProperties": {},
+      "required": [ "isCorrect" ],
       "properties": {
-        "type": {
+        "isCorrect": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "RegisterClient": {
+      "type": "object",
+      "required": [ "birthdate", "id" ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "guid"
+        },
+        "firstName": {
           "type": "string"
         },
-        "title": {
+        "lastName": {
           "type": "string"
         },
-        "status": {
+        "email": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "user": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "ClientModel": {
+      "type": "object",
+      "required": [ "birthdate", "birthdateYear", "creationDate", "probablyDeathDate", "updateDate" ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "birthdateYear": {
           "type": "integer",
           "format": "int32"
         },
-        "detail": {
+        "probablyDeathDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
           "type": "string"
         },
-        "instance": {
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedBy": {
           "type": "string"
+        },
+        "updateDate": {
+          "type": "string",
+          "format": "date-time"
         }
-      }
+      },
+      "additionalProperties": {}
+    },
+    "PagedList": {
+      "type": "object",
+      "required": [ "page", "pageSize", "totalItems" ],
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "additionalProperties": {},
+      "x-abstract": true
+    },
+    "PagedListOfClientModel": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/PagedList"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ClientModel"
+              }
+            }
+          },
+          "additionalProperties": {}
+        }
+      ]
+    },
+    "ClientStatsResponse": {
+      "type": "object",
+      "required": [ "averageAge", "stdDeviationAge" ],
+      "properties": {
+        "averageAge": {
+          "type": "number",
+          "format": "double"
+        },
+        "stdDeviationAge": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "additionalProperties": {}
     }
   }
 }

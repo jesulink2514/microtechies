@@ -29,9 +29,10 @@ namespace techies.client.stats.api
                         .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true, true)
                         .AddEnvironmentVariables()
                         .AddUserSecrets("9070654b-3983-4054-acd5-2de1c11cb2d7")
-                        .AddKubeConfigMap(KubeClientOptions.FromPodServiceAccount(),
-                            configMapName: "techies-stats-config",
-                            kubeNamespace: "default");                    
+                        //.AddKubeConfigMap(KubeClientOptions.FromPodServiceAccount(),
+                        //    configMapName: "techies-stats-config",
+                        //    kubeNamespace: "default")
+                            ;                    
                 })
                 .UseStartup<Startup>();
     }
