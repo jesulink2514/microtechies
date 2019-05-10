@@ -13,6 +13,7 @@ using OpenTracing;
 using OpenTracing.Util;
 using System;
 using System.Reflection;
+using Techies.Client.Stats.Api.Application;
 
 namespace techies.client.stats.api
 {
@@ -53,6 +54,8 @@ namespace techies.client.stats.api
                 .DefaultIndex("clients");
 
             services.AddScoped(sp => new ElasticClient(settings));
+
+            services.AddScoped<IClientApplicationService,ClientApplicationService>();
 
             services.AddHealthChecks()
                 .AddRabbitMQ(rabbitConn)
