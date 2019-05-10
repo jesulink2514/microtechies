@@ -14,6 +14,7 @@ using OpenTracing.Util;
 using System;
 using System.Reflection;
 using Techies.Client.Stats.Api.Application;
+using Techies.Client.Stats.Api.Infrastructure.ExternalServices.Prediction;
 
 namespace techies.client.stats.api
 {
@@ -80,6 +81,8 @@ namespace techies.client.stats.api
             });
 
             services.AddOpenTracing();
+
+            services.AddSingleton<ILifeExpectancyPredictionService,MLNetLifeExpectancyPredictionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
