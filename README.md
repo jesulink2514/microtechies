@@ -11,3 +11,7 @@ https://cloud.docker.com/repository/registry-1.docker.io/jesulink2514
 ### Life expectancy prediction using ML.NET 
 
 Data about life expectancy was extracted from https://data.worldbank.org/indicator/sp.dyn.le00.in?end=2018&start=1960
+
+### Swagger Document available at http://microtechies.eastus.cloudapp.azure.com/swagger
+
+
