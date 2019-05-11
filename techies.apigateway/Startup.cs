@@ -35,6 +35,8 @@ namespace techies.apigateway
                 .AddCacheManager(x => x.WithDictionaryHandle())
                 .AddPolly();
 
+            services.AddHealthChecks();
+
             services.AddSingleton(serviceProvider =>
             {
                 string serviceName = Assembly.GetEntryAssembly().GetName().Name;
@@ -75,7 +77,8 @@ namespace techies.apigateway
                     json = json.Replace("#{schema}", schema);
                     await x.Response.WriteAsync(json);
                 });
-            });
+            });            
+            app.UseHealthChecksUI(config => config.UIPath = "/hc-ui");
             app.UseOcelot().Wait();                                          
         }
     }
