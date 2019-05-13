@@ -35,7 +35,9 @@ namespace techies.apigateway
                 .AddCacheManager(x => x.WithDictionaryHandle())
                 .AddPolly();
 
-            services.AddHealthChecks();
+            services.AddHealthChecks()
+                .AddUrlGroup(u=> u.AddUri(new System.Uri("http://techies-client.default.svc.cluster.local/health"))
+                                    .AddUri(new System.Uri("http://techies-stats.default.svc.cluster.local/health")));
 
             services.AddSingleton(serviceProvider =>
             {

@@ -87,6 +87,8 @@ namespace techies.client.api
 
             services.AddOpenTracing();
 
+            
+
             services.AddScoped<IClientApplicationService,ClientsApplicationService>();
             services.AddScoped<IClientsRepository,EFClientsRepository>();
             services.AddScoped<IUnitOfWOrk,EFUnitOfWork>();
@@ -96,7 +98,7 @@ namespace techies.client.api
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

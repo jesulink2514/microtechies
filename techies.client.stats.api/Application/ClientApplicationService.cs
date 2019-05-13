@@ -1,4 +1,5 @@
-﻿using Nest;
+﻿using Microsoft.Extensions.Logging;
+using Nest;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,9 +12,14 @@ namespace Techies.Client.Stats.Api.Application
         public const int MaxPageSize = 500;
         private const string StatsField = "stats";
         private readonly ElasticClient _client;
-        public ClientApplicationService(ElasticClient client)
+        private readonly ILogger<ClientApplicationService> _logger;
+
+        public ClientApplicationService(
+            ElasticClient client,
+            ILogger<ClientApplicationService> logger)
         {
             _client = client;
+            _logger = logger;
         }
 
         public async Task<PagedList<ClientModel>> ListClients(string search = null, int page = 1, int pageSize = 500)
@@ -23,7 +29,7 @@ namespace Techies.Client.Stats.Api.Application
             .From((page - 1) * pageSize)
             .Take(pageSize));
 
-            var response = PagedList.With(datas.Documents.ToArray(),page)
+            var response = PagedList.With(datas.Documents.ToArray(), page)
                 .WithPageSize(pageSize).WithTotal(datas.Total);
 
             return response;
@@ -51,7 +57,7 @@ namespace Techies.Client.Stats.Api.Application
             .Aggregations(a => a.ExtendedStats(StatsField, d => d.Script(sf => sf.Source(ageScript)
                       .Params(sp => sp.Add("currentTime", currentTime))))));
 
-            if(!datas.Aggregations.ContainsKey(StatsField)) return new ClientStatsResponse();
+            if (!datas.Aggregations.ContainsKey(StatsField)) return new ClientStatsResponse();
 
             var stats = datas.Aggregations[StatsField] as ExtendedStatsAggregate;
 
@@ -71,6 +77,7 @@ namespace Techies.Client.Stats.Api.Application
                 var response = await _client.CreateIndexAsync("clientsmodel", c => c.Mappings(m => m.Map<ClientModel>(mp => mp.AutoMap())));
                 if (!response.IsValid)
                 {
+                    _logger.LogError(response.OriginalException.ToString());
                     throw response.OriginalException;
                 }
             }
@@ -91,7 +98,11 @@ namespace Techies.Client.Stats.Api.Application
 
             var result = await _client.IndexAsync(indexedClient, id => id.Index("clientsmodel"));
 
-            if (!result.IsValid) throw result.OriginalException;
+            if (!result.IsValid)
+            {
+                _logger.LogError(result.OriginalException.ToString());
+                throw result.OriginalException;
+            }
         }
     }
 }

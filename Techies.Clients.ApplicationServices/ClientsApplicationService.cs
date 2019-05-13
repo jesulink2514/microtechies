@@ -1,5 +1,6 @@
 ﻿using DotNetCore.CAP;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -20,17 +21,20 @@ namespace Techies.Clients.ApplicationServices
         private readonly ICapPublisher _publisher;
         private readonly IUnitOfWOrk _unitOfWOrk;
         private readonly IClientsRepository _clientsRepository;
+        private readonly ILogger<ClientsApplicationService> _logger;
 
         public ClientsApplicationService(
             IValidator<RegisterClient> validator,
             ICapPublisher publisher,
             IUnitOfWOrk unitOfWOrk,
-            IClientsRepository clientsRepository)
+            IClientsRepository clientsRepository,
+            ILogger<ClientsApplicationService> logger)
         {
             _validator = validator;
             _publisher = publisher;
             _unitOfWOrk = unitOfWOrk;
             _clientsRepository = clientsRepository;
+            _logger = logger;
         }
 
         public async Task<OperationResult<string>> Register(RegisterClient client)
@@ -51,8 +55,11 @@ namespace Techies.Clients.ApplicationServices
             _clientsRepository.Add(newClient);
 
             var recordsaffected = await _unitOfWOrk.SaveAsync();
-
-            Trace.WriteLine($"records affected {recordsaffected}");
+            
+            _logger.LogError($"records affected {recordsaffected}");
+            
+            if(recordsaffected == 0)            
+                return OperationResult.WithError<string>($"Something wrong happened");
 
             await _publisher.PublishAsync("client.services.registered", newClient);
 
