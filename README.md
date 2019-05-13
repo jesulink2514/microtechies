@@ -14,4 +14,12 @@ Data about life expectancy was extracted from https://data.worldbank.org/indicat
 
 ### Swagger Document available at http://microtechies.eastus.cloudapp.azure.com/swagger
 
+### Deployment Files
+ Kube YAML files can be found here [./deployment](https://github.com/jesulink2514/microtechies/tree/master/deployment) 
+
+
+![K8s dashboard](https://github.com/jesulink2514/microtechies/blob/master/2019-05-10_20-56-55.png?raw=true)
+
+### Distributed Tracing using Jaeger
+![Jaeger UI](https://github.com/jesulink2514/microtechies/blob/master/2019-05-10_21-00-17.png?raw=true)
 
