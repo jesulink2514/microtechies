@@ -23,3 +23,6 @@ Data about life expectancy was extracted from https://data.worldbank.org/indicat
 ### Distributed Tracing using Jaeger
 ![Jaeger UI](https://github.com/jesulink2514/microtechies/blob/master/2019-05-10_21-00-17.png?raw=true)
 
+!-- TODO --!
+* Implement Application Gateway Ingress controller
+
